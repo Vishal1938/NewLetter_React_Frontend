@@ -9,12 +9,13 @@ const News=(props)=>{
     const[articles,setArticles]=useState([])
     const[loading,setLoading]=useState(true)
     const[page,setPage]=useState(1)
-    const [totalResults,setTotalResults]=useState(0)
+    const[totalResults,setTotalResults]=useState(0)
     
 
     const capitalizeFirstLetter=(string)=>{
         return string.charAt(0).toUpperCase()+string.slice(1);
     }
+
     const updateNews = async ()=> {
         props.setProgress(10);
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`; 
@@ -44,14 +45,14 @@ const News=(props)=>{
     };
     return (
         <>
-        <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>NewsLetter -Top{capitalizeFirstLetter(props.category)}Headlines</h1>
-        {loading}
+        <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>NewsLetter -Top {capitalizeFirstLetter(props.category)}Headlines</h1>
+        {loading && <Spinner/>}
         <InfiniteScroll
-        
-        dataLength={articles.length}
+        dataLength={articles.length}        
         next={fetchMoreData}
         hasMore={articles.length !=totalResults}
         loader={<Spinner/>}
+        
         >
             <div className="container">
                 <div className="row">
@@ -82,7 +83,7 @@ const News=(props)=>{
     News.propTypes={
         country:PropTypes.string,
         pageSize:PropTypes.number,
-        catgory:PropTypes.string
+        category:PropTypes.string
 
     }
 
